@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0f172a">
+  <title>GAMEZONE GH 🇬🇭</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: white;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: auto;
+      padding: 18px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 35px 10px 20px;
+    }
+
+    .logo {
+      font-size: 40px;
+      font-weight: 900;
+    }
+
+    .tagline {
+      color: #cbd5e1;
+      margin-top: 8px;
+    }
+
+    .card {
+      background: #1e293b;
+      border-radius: 22px;
+      padding: 22px;
+      margin: 15px 0;
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    }
+
+    .badge {
+      display: inline-block;
+      background: #334155;
+      padding: 7px 11px;
+      border-radius: 999px;
+      font-size: 13px;
+      margin: 3px;
+    }
+
+    button {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 14px;
+      font-size: 17px;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .start {
+      background: #22c55e;
+      color: #052e16;
+    }
+
+    .restart {
+      background: #475569;
+      color: white;
+    }
+
+    .pay {
+      background: #f59e0b;
+      color: #451a03;
+    }
+
+    .question {
+      font-size: 23px;
+      line-height: 1.4;
+    }
+
+    .answers button {
+      background: #334155;
+      color: white;
+      text-align: left;
+    }
+
+    .answers button:hover {
+      background: #475569;
+    }
+
+    .small {
+      color: #cbd5e1;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .score {
+      text-align: center;
+      font-size: 55px;
+      font-weight: 900;
+    }
+
+    .leader-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #334155;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      margin-top: 8px;
+      border-radius: 12px;
+      border: 1px solid #475569;
+      background: #0f172a;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="hero">
+    <div class="logo">GAMEZONE GH 🇬🇭</div>
+    <div class="tagline">
+      Think fast. Stay sharp. Beat the challenge. 🔥
+    </div>
+  </div>
+
+  <!-- HOME -->
+  <section id="home" class="card">
+
+    <span class="badge">🔥 DAILY CHALLENGE</span>
+    <span class="badge">10 QUESTIONS</span>
+    <span class="badge">ONE MISTAKE = STOP</span>
+
+    <h2>Can you get 10/10? 🏆</h2>
+
+    <p class="small">
+      Answer every question correctly. One wrong answer stops your run.
+      You can restart or use Pay to Continue.
+    </p>
+
+    <button class="start" onclick="startGame()">
+      START CHALLENGE 🎮
+    </button>
+
+  </section>
+
+
+  <!-- GAME -->
+  <section id="game" class="card hidden">
+
+    <p id="progress" class="small"></p>
+
+    <h2 id="question" class="question"></h2>
+
+    <div id="answers" class="answers"></div>
+
+  </section>
+
+
+  <!-- WRONG ANSWER -->
+  <section id="stopped" class="card hidden">
+
+    <h2>❌ Challenge stopped</h2>
+
+    <p id="wrongMessage"></p>
+
+    <button class="restart" onclick="restartGame()">
+      🔄 RESTART
+    </button>
+
+    <button class="pay" onclick="payToContinue()">
+      💳 PAY GHS 1 TO CONTINUE
+    </button>
+
+    <p id="paymentMessage" class="small"></p>
+
+  </section>
+
+
+  <!-- RESULT -->
+  <section id="result" class="card hidden">
+
+    <div id="finalScore" class="score"></div>
+
+    <h2 style="text-align:center;">
+      🏆 Challenge Complete!
+    </h2>
+
+    <p class="small" style="text-align:center;">
+      Can your friends beat your score?
+    </p>
+
+    <button class="start" onclick="shareScore()">
+      📤 SHARE MY SCORE
+    </button>
+
+    <button class="restart" onclick="startGame()">
+      PLAY AGAIN
+    </button>
+
+  </section>
+
+
+  <!-- LEADERBOARD -->
+  <section class="card">
+
+    <h2>🏆 Today's Leaderboard</h2>
+
+    <div class="leader-row">
+      <span>🥇 Kwame</span>
+      <b>10/10</b>
+    </div>
+
+    <div class="leader-row">
+      <span>🥈 Ama</span>
+      <b>9/10</b>
+    </div>
+
+    <div class="leader-row">
+      <span>🥉 Kofi</span>
+      <b>8/10</b>
+    </div>
+
+    <p class="small">
+      These are sample players for now. We can add a real database later.
+    </p>
+
+  </section>
+
+
+  <!-- CATEGORIES -->
+  <section class="card">
+
+    <h2>🔥 Challenges</h2>
+
+    <span class="badge">🇬🇭 Ghana</span>
+    <span class="badge">⚽ Football</span>
+    <span class="badge">🎵 Music</span>
+    <span class="badge">🧠 Brain</span>
+    <span class="badge">🎬 Movies</span>
+
+  </section>
+
+</div>
+
+
+<script>
+
+const questions = [
+
+  {
+    question: "What is the capital city of Ghana?",
+    answers: ["Accra", "Kumasi", "Tamale", "Cape Coast"],
+    correct: 0
+  },
+
+  {
+    question: "Which ocean is south of Ghana?",
+    answers: [
+      "Atlantic Ocean",
+      "Pacific Ocean",
+      "Indian Ocean",
+      "Arctic Ocean"
+    ],
+    correct: 0
+  },
+
+  {
+    question: "What is the currency of Ghana?",
+    answers: [
+      "Ghana Cedi",
+      "Naira",
+      "Dalasi",
+      "Shilling"
+    ],
+    correct: 0
+  },
+
+  {
+    question: "Which planet is known as the Red Planet?",
+    answers: [
+      "Mars",
+      "Venus",
+      "Jupiter",
+      "Mercury"
+    ],
+    correct: 0
+  },
+
+  {
+    question: "How many days are in a normal year?",
+    answers: [
+      "365",
+      "360",
+      "366",
+      "364"
+    ],
+    correct: 0
+  },
+
+  {
+    question: "Which instrument has black and white keys?",
+    answers: [
+      "Piano",
+      "Drum",
+      "Trumpet",
+      "Guitar"
+    ],
+    correct: 0
+  },
+
+  {
+    question: "Which gas do humans need to breathe?",
+    answers: [
+      "Oxygen",
+      "Helium",
+      "Hydrogen",
+      "Carbon dioxide"
+    ],
+    correct: 0
+  },
+
+  {
+    question: "How many sides does a triangle have?",
+    answers: [
+      "3",
+      "4",
+      "5",
+      "6"
+    ],
+    correct: 0
+  },
+
+  {
+    question: "Which continent is Ghana located in?",
+    answers: [
+      "Africa",
+      "Asia",
+      "Europe",
+      "South America"
+    ],
+    correct: 0
+  },
+
+  {
+    question: "What is 10 × 10?",
+    answers: [
+      "100",
+      "10",
+      "110",
+      "90"
+    ],
+    correct: 0
+  }
+
+];
+
+
+let currentQuestion = 0;
+let score = 0;
+let stoppedAt = 0;
+
+
+function showScreen(screen) {
+
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("game").classList.add("hidden");
+  document.getElementById("stopped").classList.add("hidden");
+  document.getElementById("result").classList.add("hidden");
+
+  document.getElementById(screen).classList.remove("hidden");
+
+}
+
+
+function startGame() {
+
+  currentQuestion = 0;
+  score = 0;
+  stoppedAt = 0;
+
+  showScreen("game");
+
+  displayQuestion();
+
+}
+
+
+function restartGame() {
+
+  startGame();
+
+}
+
+
+function displayQuestion() {
+
+  const item = questions[currentQuestion];
+
+  document.getElementById("progress").textContent =
+    "Question " +
+    (currentQuestion + 1) +
+    " of " +
+    questions.length +
+    " • Score: " +
+    score;
+
+  document.getElementById("question").textContent =
+    item.question;
+
+  const answersBox =
+    document.getElementById("answers");
+
+  answersBox.innerHTML = "";
+
+
+  item.answers.forEach(function(answer, index) {
+
+    const button = document.createElement("button");
+
+    button.textContent = answer;
+
+    button.onclick = function() {
+
+      checkAnswer(index);
+
+    };
+
+    answersBox.appendChild(button);
+
+  });
+
+}
+
+
+function checkAnswer(answerIndex) {
+
+  const question = questions[currentQuestion];
+
+  if (answerIndex === question.correct) {
+
+    score++;
+
+    currentQuestion++;
+
+    if (currentQuestion >= questions.length) {
+
+      document.getElementById("finalScore").textContent =
+        score + "/" + questions.length;
+
+      showScreen("result");
+
+    } else {
+
+      displayQuestion();
+
+    }
+
+  } else {
+
+    stoppedAt = currentQuestion;
+
+    document.getElementById("wrongMessage").textContent =
+      "You got Question " +
+      (currentQuestion + 1) +
+      " wrong. Your current score is " +
+      score +
+      ". Choose Restart or Pay to Continue.";
+
+    showScreen("stopped");
+
+  }
+
+}
+
+
+async function payToContinue() {
+
+  const message =
+    document.getElementById("paymentMessage");
+
+  const email = prompt(
+    "Enter your email address for the payment receipt:"
+  );
+
+  if (!email) {
+
+    message.textContent =
+      "Payment cancelled.";
+
+    return;
+
+  }
+
+
+  message.textContent =
+    "Opening secure Paystack checkout...";
+
+
+  try {
+
+    const response = await fetch(
+      "/api/create-payment",
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+          email: email
+        })
+      }
+    );
+
+
+    const data = await response.json();
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        data.error || "Payment could not be started."
+      );
+
+    }
+
+
+    window.location.href =
+      data.authorization_url;
+
+  } catch (error) {
+
+    message.textContent =
+      error.message;
+
+  }
+
+}
+
+
+function shareScore() {
+
+  const text =
+    "I scored " +
+    score +
+    "/" +
+    questions.length +
+    " on GAMEZONE GH 🇬🇭🔥 Can you beat me?";
+
+
+  if (navigator.share) {
+
+    navigator.share({
+      title: "GAMEZONE GH",
+      text: text
+    });
+
+  } else {
+
+    alert(text);
+
+  }
+
+}
+
+</script>
+
+</body>
+</html>
