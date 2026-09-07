@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>GAMEZONE GH Payment</title>
+
+<style>
+
+body {
+
+  margin: 0;
+
+  font-family: Arial, sans-serif;
+
+  background: #0f172a;
+
+  color: white;
+
+  text-align: center;
+
+  padding: 40px 20px;
+
+}
+
+.card {
+
+  max-width: 500px;
+
+  margin: auto;
+
+  background: #1e293b;
+
+  padding: 30px;
+
+  border-radius: 20px;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="card">
+
+<h1 id="title">
+Checking payment...
+</h1>
+
+<p id="message">
+Please wait while we confirm your payment.
+</p>
+
+</div>
+
+
+<script>
+
+async function verifyPayment() {
+
+  const params =
+    new URLSearchParams(
+      window.location.search
+    );
+
+
+  const reference =
+    params.get("trxref") ||
+    params.get("reference");
+
+
+  if (!reference) {
+
+    document.getElementById("title")
+      .textContent =
+      "❌ Payment reference missing";
+
+    return;
+
+  }
+
+
+  try {
+
+    const response =
+      await fetch(
+        "/api/verify-payment/" +
+        encodeURIComponent(reference)
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (data.paid) {
+
+      document.getElementById("title")
+        .textContent =
+        "✅ Payment confirmed!";
+
+      document.getElementById("message")
+        .textContent =
+        "Returning you to GAMEZONE GH...";
+
+
+      /*
+        The next version should use a
+        server-side session/token so that
+        payment unlocks cannot be faked
+        by changing browser storage.
+      */
+
+      setTimeout(
+        function() {
+
+          window.location.href =
+            "/";
+
+        },
+        1500
+      );
+
+
+    } else {
+
+      document.getElementById("title")
+        .textContent =
+        "❌ Payment not confirmed";
+
+      document.getElementById("message")
+        .textContent =
+        "The payment was not successfully confirmed. Please return to the game and try again.";
+
+    }
+
+
+  } catch (error) {
+
+    document.getElementById("title")
+      .textContent =
+      "⚠️ Verification error";
+
+    document.getElementById("message")
+      .textContent =
+      "We could not verify the payment.";
+
+  }
+
+}
+
+
+verifyPayment();
+
+</script>
+
+</body>
+
+</html>
